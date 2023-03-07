@@ -2,23 +2,30 @@
 
 import psutil
 from time import sleep
+from KasaSwitch import KasaSwitch
 
 # CONSTANTS
 max_percent = 80
 min_percent = 20
+plug = None
 def whenBatteryMax():
-	pass
+	global plug
+	plug.set_state(False)
 def whenBatteryMin():
-	pass
+	global plug
+	plug.set_state(True)
 
 def getState():
 	batt = psutil.sensors_battery()
 	return (batt.percent, batt.power_plugged)
 
+def discover_plug():
+	global plug
+	plug = KasaSwitch("10.0.0.127")
+
 def main():
-	# Do this first to align with program state
+	discover_plug()
 	print("Radded's battery thing")
-	whenBatteryMin()
 	global max_percent
 	global min_percent
 
